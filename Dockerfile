@@ -1,9 +1,8 @@
-FROM wordpress:php8.1-fpm
+FROM wordpress:php8.1-cli
 
-RUN apt-get update && apt-get install -y nginx
+WORKDIR /var/www/html
 
-COPY default.conf /etc/nginx/sites-available/default
-
+# copy wordpress (sudah ada di image)
 EXPOSE 8080
 
-CMD ["sh", "-c", "php-fpm & nginx -g 'daemon off;'"]
+CMD ["php", "-S", "0.0.0.0:8080", "-t", "/var/www/html"]
