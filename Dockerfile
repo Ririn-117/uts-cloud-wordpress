@@ -1,6 +1,6 @@
 FROM wordpress:php8.1-apache
 
-RUN rm -f /etc/apache2/mods-enabled/mpm_*.load
+RUN rm -rf /etc/apache2/mods-enabled/mpm_*
 
 RUN a2enmod mpm_prefork
 
