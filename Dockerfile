@@ -1,7 +1,7 @@
-FROM wordpress:6.4-php8.1-apache
+FROM wordpress:php8.1-fpm
 
-RUN echo "LoadModule mpm_prefork_module /usr/lib/apache2/modules/mod_mpm_prefork.so" > /etc/apache2/mods-enabled/mpm_prefork.load \
- && rm -f /etc/apache2/mods-enabled/mpm_event.load \
- && rm -f /etc/apache2/mods-enabled/mpm_worker.load
+RUN apt-get update && apt-get install -y nginx
 
-CMD ["apache2-foreground"]
+COPY default.conf /etc/nginx/sites-available/default
+
+CMD service nginx start && php-fpm
