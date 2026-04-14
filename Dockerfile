@@ -6,4 +6,4 @@ COPY default.conf /etc/nginx/sites-available/default
 
 EXPOSE 8080
 
-CMD nginx -g "daemon off;" & php-fpm
+CMD ["sh", "-c", "php-fpm & nginx -g 'daemon off;'"]
