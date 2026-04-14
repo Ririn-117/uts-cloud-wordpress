@@ -2,8 +2,9 @@ FROM php:8.1-cli
 
 WORKDIR /var/www/html
 
-# install tools
-RUN apt-get update && apt-get install -y wget unzip
+# install extension MySQL + tools
+RUN apt-get update && apt-get install -y wget unzip \
+    && docker-php-ext-install mysqli
 
 # download wordpress
 RUN wget https://wordpress.org/latest.zip \
