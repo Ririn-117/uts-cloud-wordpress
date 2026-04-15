@@ -1,8 +1,17 @@
-FROM wordpress:php8.1-apache
+FROM php:8.1-cli
 
-# paksa hanya 1 MPM aktif
-RUN rm -f /etc/apache2/mods-enabled/mpm_event.load \
-    && rm -f /etc/apache2/mods-enabled/mpm_worker.load \
-    && a2enmod mpm_prefork
+WORKDIR /var/www/html
 
-EXPOSE 80
+# install extension MySQL + tools
+RUN apt-get update && apt-get install -y wget unzip \
+    && docker-php-ext-install mysqli
+
+# download wordpress
+RUN wget https://wordpress.org/latest.zip \
+ && unzip latest.zip \
+ && mv wordpress/* . \
+ && rm -rf wordpress latest.zip
+
+EXPOSE 8080
+
+CMD ["php", "-S", "0.0.0.0:8080", "-t", "/var/www/html"]
